@@ -20,6 +20,7 @@ function Profile() {
  const [regemail, setRegEmail]=useState('');
  const [regpass, setRegPass]=useState('');
  const [ringData, setRingData]=useState();
+ const [allreder, setAllrender]=useState(false);
 
 
 useEffect(()=>{
@@ -35,6 +36,7 @@ navigate(`/profile?profile=${user.uid}`);
   const querySnapshot = await getDocs(collection(db, 'codes'));
   const dataArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   setRingData(dataArray);
+  setAllrender(true);
   //
   if(ringTag){
     const foundRingID = dataArray.find(item => item.ringcode ===  parseFloat(ringTag) && item.claimed === true);
@@ -115,12 +117,13 @@ const handelSignup = async () => {
 
 
   return (
+    <>{allreder&&
     <div style={{display: 'flex', gap: "25px"}}>
 
    {(profiles!==undefined&&!profiles) ?<>
 
 
-{(register || ringCode || ringTag)?
+{(register || ringCode )?
     <div id="registration-container">
         <h2>Register</h2>
         <input value={regemail} onChange={e=>setRegEmail(e.target.value)}
@@ -148,6 +151,7 @@ const handelSignup = async () => {
     }
     <ToastContainer />
     </div>
+    }</>
   )
 }
 
