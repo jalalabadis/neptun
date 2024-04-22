@@ -1,38 +1,386 @@
-.App {
-  text-align: center;
+/* styles.css */
+* {
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(to bottom, #3f51b5, #000000); /* Gradient going from top to bottom */
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh;
+  text-align: center;
+}
+.left-column,
+.right-column {
+  width: 100%;
+}
+.left-column {
+  /* ... other styles ... */
+  padding-top: 120px; /* Adjust the padding to push down the content */
+  padding-bottom: 60px; /* Give some space at the bottom */
+  justify-content: flex-start; /* Aligns content to the top */
+}
+
+.right-column {
+  /* Use flexbox to align content in a column and center it */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%; /* Full width */
+}
+
+.welcome-text {
+  margin: 20px 0; /* Adds space around the welcome text */
+}
+
+
+#login-form {
+  max-width: 400px; /* Maximum width of the form */
+  width: 100%; /* Full width of its parent container */
+  margin: auto; /* Centers the form */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Aligns items in the center of the form */
+}
+
+#login-form input,
+.button {
+  display: block; /* Ensures buttons are block level for full width */
+  width: 80%; /* Sets the width of the button relative to its parent */
+  padding: 15px 30px; /* Larger padding for taller buttons */
+  margin: 10px auto; /* Centers the button and adds margin around them */
+  font-size: 1.2rem; /* Increases font size */
+  font-weight: 600; /* Makes font weight bolder */
+  border-radius: 25px; /* Rounded corners for oval shape */
+  text-align: center; /* Ensures text is centered within the button */
+}
+.form-footer {
+  text-align: right;
+}
+
+.button {
+  display: block; /* Makes the button a block element */
+  width: 60%; /* Adjust this as necessary for your design */
+  padding: 15px 0; /* Adds padding inside the button, making it taller */
+  margin: 10px auto 20px; /* Adds margin above, and below the button */
+  font-size: 1.2rem; /* Sets a larger font size */
+  font-weight: 600; /* Makes the font weight bolder */
+  border-radius: 30px; /* Makes the button edges more rounded */
+  text-align: center; /* Centers the text inside the button */
+  border: 2px solid transparent; /* Adds a border that's transparent */
+}
+
+.button:hover {
+  background-color: #354096; /* Changes button color on hover for feedback */
+}
+.login-btn {
+  background-color: #3f51b5; /* Sets the background color to purple */
+  color: white; /* Sets the text color to white */
+  border-color: #3f51b5; /* Sets border color to match the background */
+}
+
+.signup-btn {
+  background-color: white; /* Sets the background color to white */
+  color: #3f51b5; /* Sets the text color to purple */
+  border-color: #3f51b5; /* Sets border color to purple */
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.social-media-icons {
+  margin-top: 20px;
+  /* Style your social media icons here */
+}
+#login-container, #registration-container {
+  margin: 10px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 90%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+button {
+  padding: 20px 20px;
+  width: 200%;
+  height: 200%;
+  border: none;
+  border-radius: 5px;
+  background-color: #3f51b5;
   color: white;
+  cursor: pointer;
+  padding-top: 250px;
+  margin-block: 50px;
 }
 
-.App-link {
-  color: #61dafb;
+
+
+
+
+.profile-container {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.profile-background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.profile-content {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: none; /* Hide the profile container by default */
+
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  background-color: #ccc; /* Placeholder color */
+  border-radius: 50%;
+  margin: 0 auto 20px;
+}
+
+.profile-nickname {
+  margin-bottom: 20px;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-buttons button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3f51b5;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-buttons button:hover {
+  background-color: #354096;
+}
+@media (max-width: 768px) {
+  body, html {
+      background: linear-gradient(to bottom, #3f51b5 50%, #ffffff 50%); /* Adjusts the gradient for mobile */
   }
-  to {
-    transform: rotate(360deg);
+
+  .container {
+      flex-direction: column; /* Stacks the blocks vertically on mobile */
   }
+
+  #login-form input,
+  .button {
+      width: 90%; /* Makes the buttons take up more space on smaller screens */
+  }
+}
+
+/* Adjust the logo size and position */
+#logo {
+  max-width: 200px; /* Sets the maximum width of the logo */
+  margin-bottom: 20px; /* Adds space below the logo */
+}
+
+
+button {
+  display: block; /* Ensures buttons are block elements */
+  width: 80%; /* Adjust width as needed */
+  padding: 15px; /* Larger vertical padding for a taller button */
+  margin: 20px auto; /* Centers the button and adds vertical margin */
+  font-size: 1.2rem; /* Sets a comfortable font size */
+  font-weight: bold; /* Makes the text bold */
+  color: white; /* Sets the text color to white */
+  background-color: #3f51b5; /* Sets a blue background color */
+  border: none; /* Removes the border */
+  border-radius: 50px; /* A large border-radius for rounded edges */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+  transition: background-color 0.3s; /* Smooth transition for background color change */
+  text-align: center; /* Ensures text is centered */
+}
+
+/* Specific styles for the sign-up button to differentiate it from login button */
+.signup-btn {
+  background-color: white; /* Sets a white background color for contrast */
+  color: #3f51b5; /* Sets the text color to blue */
+  border: 2px solid #3f51b5; /* Adds a blue border */
+}
+
+/* Hover effects for both buttons */
+.button:hover {
+  opacity: 0.8; /* Slight transparency on hover */
+}
+/* styles.css */
+
+body, html {
+height: 100%;
+margin: 0;
+padding: 0;
+display: flex;
+align-items: center; /* Aligns children vertically in the center */
+justify-content: center; /* Aligns children horizontally in the center */
+font-family: 'Open Sans', sans-serif;
+background: linear-gradient(to bottom, #3f51b5, #000000);
+}
+
+/* Ensure .container takes the full width and height */
+.container {
+width: 100vw; /* Viewport width */
+height: 100vh; /* Viewport height */
+display: flex;
+flex-direction: column;
+justify-content: center; /* Centers content vertically in the container */
+align-items: center; /* Centers content horizontally */
+text-align: center;
+}
+
+/* ... other styles ... */
+
+/* Style for login and registration containers */
+#login-container, #registration-container {
+width: 90%; /* Or your desired width */
+max-width: 400px; /* Or your desired max width */
+padding: 20px;
+margin: auto; /* This will help in centering if the container is a flex child */
+box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+background: white;
+border-radius: 10px;
+}
+
+/* ... other styles ... */
+
+
+
+#profile-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+#profile-picture {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  background: #eee;
+  margin-bottom: 10px;
+  display: inline-block;
+  line-height: 150px;
+  color: #888;
+  font-size: 18px;
+  overflow: hidden;
+  position: relative;
+}
+#profile-picture img{
+width: 100%;
+height: auto;
+}
+#username {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+.buttontrs {
+  margin: 10px 0;
+  padding: 10px 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 120px;
+  text-align: center;
+  color: #333;
+  text-decoration: none;
+}
+.buttontrs:hover {
+  background-color: #f7f7f7;
+}
+
+
+#button-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Table styles */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 8px;
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f2f2f2;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tr:hover {
+  background-color: #f2f2f2;
+}
+
+
+.editryuusinput{
+  height: 40px;
+}
+
+.editerbuttonsd{
+  height: 45px;
+  width: 80px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  margin: 0;
 }
