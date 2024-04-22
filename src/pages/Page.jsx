@@ -32,9 +32,12 @@ function Page({profiles}) {
           setImageUrl(profileData.avatar&&profileData.avatar);
         })
       }
+      else{
+        navigate(`/profile`);
+      }
       });
     
-    },[profiles]);
+    },[navigate, profiles]);
 
 
 
@@ -74,6 +77,7 @@ function Page({profiles}) {
       if(userName){
       const usercRefs = doc(db, "profiles", userId);
       await   updateDoc(usercRefs, {username: userName});
+      userData.username =  userName;
       toast("updateusername");
       setUserNameEdit(false);
       }
@@ -103,9 +107,15 @@ function Page({profiles}) {
     const handeldeleteitem= async(itemlabel)=>{
       console.log(lable)
      const deletebuttons = userData.buttons.filter(item => item.label !== itemlabel);
-     userData.buttons.push(deletebuttons);
      const usercRefs = doc(db, "profiles", userId);
      await   updateDoc(usercRefs, {buttons: deletebuttons});
+
+     const updatedUserData = {
+      ...userData,
+      buttons: deletebuttons
+    };
+    setUserData(updatedUserData);
+     console.log(userData)
      toast("update buttons");
     };
 const handelLogout= async()=>{
