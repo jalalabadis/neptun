@@ -68,7 +68,7 @@ const userData = {
 const handelSignup = async () => {
   try {
     if (regemail && regpass && ringCode) {
-      const foundRingID = ringData.find(item => item.ringcode === ringCode && item.claimed === false);
+      const foundRingID = ringData.find(item => item.ringcode ===  parseFloat(ringCode) && item.claimed === false);
       if (foundRingID) {
   
   const userCredential = await createUserWithEmailAndPassword(auth, regemail, regpass);
