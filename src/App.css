@@ -286,6 +286,7 @@ border-radius: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 100%;
+  min-width: 320px;
   max-width: 500px;
 }
 #profile-picture {
@@ -387,4 +388,45 @@ height: auto;
 
 .disablerty{
  pointer-events: none;
+ background: #252631;
+}
+
+.labrtyuttonsd{
+  height: 25px;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+
+.labrtyuttonsd a{
+color: #ddd;
+text-decoration: none;
+}
+
+@keyframes placeHolderShimmer{
+  0%{
+      background-position: -468px 0
+  }
+  100%{
+      background-position: 468px 0
+  }
+}
+.linear-background {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-size: 1000px 104px;
+  height: 308px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+  width: 330px;
 }

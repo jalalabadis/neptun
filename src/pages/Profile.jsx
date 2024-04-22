@@ -21,6 +21,7 @@ function Profile() {
  const [regpass, setRegPass]=useState('');
  const [ringData, setRingData]=useState();
  const [allreder, setAllrender]=useState(false);
+ const [isloding, setIsloding]=useState(false);
 
 
 useEffect(()=>{
@@ -55,13 +56,16 @@ fetchData();
  
 const handelLogin =()=>{
   if (email && pass) {
+    setIsloding(true);
     signInWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log(user);
+        setIsloding(false);
       })
       .catch((error) => {
+        setIsloding(false);
         //const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
@@ -86,7 +90,7 @@ const handelSignup = async () => {
     if (regemail && regpass && ringCode) {
       const foundRingID = ringData.find(item => item.ringcode ===  parseFloat(ringCode) && item.claimed === false);
       if (foundRingID) {
-  
+  setIsloding(true);
   const userCredential = await createUserWithEmailAndPassword(auth, regemail, regpass);
   const user = userCredential.user;
   const usercRefs = doc(db, "profiles", user.uid);
@@ -94,6 +98,7 @@ const handelSignup = async () => {
   const ringRefs = doc(db, "codes", foundRingID.id);
   const updateRing = await  updateDoc(ringRefs, {claimed: true, uid: user.uid});
   console.log("User signed up successfully:", updateUser, updateRing);
+  setIsloding(false);
       } else {
         toast("Ring Code Not available!");
       }
@@ -117,8 +122,8 @@ const handelSignup = async () => {
 
 
   return (
-    <>{allreder&&
-    <div style={{display: 'flex', gap: "25px"}}>
+    <>{allreder?
+    <div style={{display: 'flex'}}>
 
    {(profiles!==undefined&&!profiles) ?<>
 
@@ -132,7 +137,7 @@ const handelSignup = async () => {
         type="password" id="register-password" placeholder="Password"/>
         <input type="text" value={ringCode}  onChange={e=>setRingCode(e.target.value)}
          id="register-ring-code" placeholder="Ring Code"/>
-        <button onClick={handelSignup} id="register-button">Register</button>
+        <button onClick={handelSignup} id="register-button" className={isloding?"disablerty":""} disabled={isloding}>Register</button>
         <div id="registration-message"></div>
     </div>:
     
@@ -141,8 +146,8 @@ const handelSignup = async () => {
         <input value={email} onChange={e=>setEmail(e.target.value)}
         type="email" id="login-email" placeholder="Email"/>
         <input value={pass} onChange={e=>setPass(e.target.value)}
-        type="password" onClick={handelLogin}  id="login-password" placeholder="Password"/>
-        <button id="login-button">Login</button>
+        type="password"   id="login-password"  placeholder="Password"/>
+        <button onClick={handelLogin} id="login-button" className={isloding?"disablerty":""} disabled={isloding}>Login</button>
     </div>
     
     }</>
@@ -151,7 +156,10 @@ const handelSignup = async () => {
     }
     <ToastContainer />
     </div>
-    }</>
+    
+    :
+<div className="linear-background"></div>}
+    </>
   )
 }
 

@@ -6,7 +6,8 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { FaPen } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 function Page({profiles}) {
   const navigate =useNavigate();
@@ -36,8 +37,13 @@ function Page({profiles}) {
         const profileDocRef = doc(db, 'profiles', profiles);
         const docSnapshot = await getDoc(profileDocRef)
         const profileData = { id: docSnapshot.id, ...docSnapshot.data() };
+        if(profileData.username){
         setUserData(profileData);
         setImageUrl(profileData.avatar&&profileData.avatar);
+        }
+        else{
+          navigate('/');
+        }
       };
       fetcuserhData();
     },[navigate, profiles]);
@@ -131,7 +137,13 @@ navigate('/');
        {editParmission&&  <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
         <button id="logout-button" onClick={handelLogout} className="buttontrs">Logout</button>
     </div>}
-    {userData&&
+    {!userId&& 
+    <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
+        <button id="logout-button" onClick={e=>navigate('/profile?login=true')} className="buttontrs">Login</button>
+    </div>}
+
+
+    {userData?
     <div style={{display:'flex', flexDirection: "column", gap: "10px"}}>
     <div id="profile-container">
 
@@ -139,7 +151,11 @@ navigate('/');
         <div id="profile-picture" className={lodingthumbnail?"disablerty":""}>
         <input type="file" accept="image/*" id="imageInput" hidden onChange={handleImageChange}/>
         <label htmlFor="imageInput" className="image-button">
+        {lodingthumbnail?
+          <div className="linear-background"></div>
+        :
        <img src={imageUrl?imageUrl:'https://dummyimage.com/80x80/555555/ffffff&text=a'} alt="" />
+        }
        </label> 
        </div>:
       <div id="profile-picture" className={lodingthumbnail?"disablerty":""}>
@@ -160,9 +176,24 @@ navigate('/');
           {editParmission&&<FaPen style={{fontSize: '14px'}} onClick={e=>setUserNameEdit(true)} /> }
           </div>
 }
+
+<hr />
+
+{userData.buttons?.map((item, index)=>{
+return( 
+  <button className='labrtyuttonsd' key={index}> 
+  <Link to={item.link} target="blank">
+  {item.label}  <FaExternalLinkAlt />
+  </Link>
+
+</button>
+
+        
+) })}
+
         </div>
         
-      {userData &&
+      {(userData && editParmission) &&
       
 
 <div id="button-container" >
@@ -171,14 +202,14 @@ navigate('/');
       <tr>
     <th>Label</th>
 <th>Url</th>
-{editParmission&&<th>Action</th>}
+<th>Action</th>
 </tr>
 {userData.buttons?.map((item, index)=>{
 return( 
   <tr key={index}> 
 <td>{item.label}</td>
 <td>{item.link}</td>
-{editParmission&&<td onClick={e=>handeldeleteitem(item.label)}>Delete</td>}
+<td onClick={e=>handeldeleteitem(item.label)}>Delete</td>
 
 </tr>
 
@@ -190,7 +221,7 @@ return(
       </tbody>
    </table>
 
-   {editParmission&&
+ 
    <div>
    {addbuttonEdit?
    <div style={{display: 'flex', flexDirection: 'column', marginTop: '30px'}}> 
@@ -204,9 +235,10 @@ return(
 
 <button onClick={e=>setAddbutonEdit(true)} style={{height: "30px", display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: "14px"}}>Add Button</button>
      }
-     </div>}
+     </div>
  </div>}
-    </div>}
+    </div>:
+    <div className="linear-background"></div>}
     </>
   )
 }
