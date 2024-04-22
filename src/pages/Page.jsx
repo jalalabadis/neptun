@@ -6,7 +6,7 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { FaPen } from "react-icons/fa";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 function Page({profiles}) {
   const navigate =useNavigate();
@@ -19,24 +19,27 @@ function Page({profiles}) {
   const [url, setUrl]=useState('');
   const [usernameEdit, setUserNameEdit]=useState(false);
   const [addbuttonEdit, setAddbutonEdit]=useState(false);
+  const [editParmission, setEditParmission]=useState(false);
 
   useEffect(()=>{
     onAuthStateChanged(auth, user=>{
       if(user){
         setUserID(user.uid);
-        const profileDocRef = doc(db, 'profiles', user.uid);
-        getDoc(profileDocRef)
-        .then(docSnapshot=>{
-          const profileData = { id: docSnapshot.id, ...docSnapshot.data() };
-          setUserData(profileData);
-          setImageUrl(profileData.avatar&&profileData.avatar);
-        })
-      }
-      else{
-        navigate(`/profile`);
+        if(user.uid===profiles){
+          setEditParmission(true);
+        }
+      
       }
       });
     
+      const fetcuserhData = async () => {
+        const profileDocRef = doc(db, 'profiles', profiles);
+        const docSnapshot = await getDoc(profileDocRef)
+        const profileData = { id: docSnapshot.id, ...docSnapshot.data() };
+        setUserData(profileData);
+        setImageUrl(profileData.avatar&&profileData.avatar);
+      };
+      fetcuserhData();
     },[navigate, profiles]);
 
 
@@ -125,17 +128,24 @@ navigate('/');
 };
   return (
     <> 
-         <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
+       {editParmission&&  <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
         <button id="logout-button" onClick={handelLogout} className="buttontrs">Logout</button>
-    </div>
+    </div>}
+    {userData&&
     <div style={{display:'flex', flexDirection: "column", gap: "10px"}}>
     <div id="profile-container">
+
+      {editParmission?
         <div id="profile-picture" className={lodingthumbnail?"disablerty":""}>
         <input type="file" accept="image/*" id="imageInput" hidden onChange={handleImageChange}/>
         <label htmlFor="imageInput" className="image-button">
        <img src={imageUrl?imageUrl:'https://dummyimage.com/80x80/555555/ffffff&text=a'} alt="" />
        </label> 
-       </div>
+       </div>:
+      <div id="profile-picture" className={lodingthumbnail?"disablerty":""}>
+      <img src={imageUrl?imageUrl:'https://dummyimage.com/80x80/555555/ffffff&text=a'} alt="" />
+      </div>
+       }
 
 
       {usernameEdit?
@@ -146,7 +156,9 @@ navigate('/');
     </div>
     :
         <div id="username">
-          {userData?.username} <FaPen style={{fontSize: '14px'}} onClick={e=>setUserNameEdit(true)} /> </div>
+          {userData?.username} 
+          {editParmission&&<FaPen style={{fontSize: '14px'}} onClick={e=>setUserNameEdit(true)} /> }
+          </div>
 }
         </div>
         
@@ -159,14 +171,14 @@ navigate('/');
       <tr>
     <th>Label</th>
 <th>Url</th>
-<th>Action</th>
+{editParmission&&<th>Action</th>}
 </tr>
 {userData.buttons.map((item, index)=>{
 return( 
   <tr key={index}> 
 <td>{item.label}</td>
 <td>{item.link}</td>
-<td onClick={e=>handeldeleteitem(item.label)}>Delete</td>
+{editParmission&&<td onClick={e=>handeldeleteitem(item.label)}>Delete</td>}
 
 </tr>
 
@@ -177,6 +189,9 @@ return(
 
       </tbody>
    </table>
+
+   {editParmission&&
+   <div>
    {addbuttonEdit?
    <div style={{display: 'flex', flexDirection: 'column', marginTop: '30px'}}> 
    <div style={{display: 'flex', gap: '5px'}}>
@@ -188,8 +203,10 @@ return(
    :
 
 <button onClick={e=>setAddbutonEdit(true)} style={{height: "30px", display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: "14px"}}>Add Button</button>
-     }  </div>}
-    </div>
+     }
+     </div>}
+ </div>}
+    </div>}
     </>
   )
 }

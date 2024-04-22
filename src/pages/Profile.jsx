@@ -26,7 +26,9 @@ useEffect(()=>{
 ////UserCheck
 onAuthStateChanged(auth, user=>{
 if(user){
+  if(!profiles){
 navigate(`/profile?profile=${user.uid}`);
+  }
 }
 });
   const fetchData = async () => {
@@ -36,7 +38,7 @@ navigate(`/profile?profile=${user.uid}`);
 };
 fetchData();
 
-},[navigate]);
+},[navigate, profiles]);
 
  
 const handelLogin =()=>{
