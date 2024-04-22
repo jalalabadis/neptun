@@ -173,7 +173,7 @@ navigate('/');
 <th>Url</th>
 {editParmission&&<th>Action</th>}
 </tr>
-{userData.buttons.map((item, index)=>{
+{userData.buttons?.map((item, index)=>{
 return( 
   <tr key={index}> 
 <td>{item.label}</td>

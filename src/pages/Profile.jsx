@@ -11,10 +11,10 @@ function Profile() {
   const navigate = useNavigate();
   const [searchparms]= useSearchParams('');
   const profiles =  searchparms.get('profile');
-  const login =  searchparms.get('login');
   const register =  searchparms.get('register');
+  const ringTag = searchparms.get('ringcode');
 
-  const [ringCode, setRingCode] = useState(( searchparms.get('ringcode'))? searchparms.get('ringcode'):'');
+  const [ringCode, setRingCode] = useState('');
  const [email, setEmail]=useState('');
  const [pass, setPass]=useState('');
  const [regemail, setRegEmail]=useState('');
@@ -35,10 +35,20 @@ navigate(`/profile?profile=${user.uid}`);
   const querySnapshot = await getDocs(collection(db, 'codes'));
   const dataArray = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   setRingData(dataArray);
+  //
+  if(ringTag){
+    const foundRingID = dataArray.find(item => item.ringcode ===  parseFloat(ringTag) && item.claimed === true);
+      if (foundRingID) {
+        navigate(`/profile?profile=${foundRingID.uid}`);
+      }
+      else{
+        setRingCode(ringTag);
+      }
+  }
 };
 fetchData();
 
-},[navigate, profiles]);
+},[navigate, profiles, ringTag]);
 
  
 const handelLogin =()=>{
@@ -80,9 +90,8 @@ const handelSignup = async () => {
   const usercRefs = doc(db, "profiles", user.uid);
   const updateUser = await  setDoc(usercRefs, userData);
   const ringRefs = doc(db, "codes", foundRingID.id);
-  const updateRing = await  updateDoc(ringRefs, {claimed: true});
+  const updateRing = await  updateDoc(ringRefs, {claimed: true, uid: user.uid});
   console.log("User signed up successfully:", updateUser, updateRing);
-
       } else {
         toast("Ring Code Not available!");
       }
@@ -108,19 +117,10 @@ const handelSignup = async () => {
   return (
     <div style={{display: 'flex', gap: "25px"}}>
 
-   {!profiles ?<>
+   {(profiles!==undefined&&!profiles) ?<>
 
-   {login&&
-       <div id="login-container">
-        <h2>Login</h2>
-        <input value={email} onChange={e=>setEmail(e.target.value)}
-        type="email" id="login-email" placeholder="Email"/>
-        <input value={pass} onChange={e=>setPass(e.target.value)}
-        type="password" onClick={handelLogin}  id="login-password" placeholder="Password"/>
-        <button id="login-button">Login</button>
-    </div>}
 
-{(register || ringCode)&&
+{(register || ringCode || ringTag)?
     <div id="registration-container">
         <h2>Register</h2>
         <input value={regemail} onChange={e=>setRegEmail(e.target.value)}
@@ -131,7 +131,18 @@ const handelSignup = async () => {
          id="register-ring-code" placeholder="Ring Code"/>
         <button onClick={handelSignup} id="register-button">Register</button>
         <div id="registration-message"></div>
-    </div>}</>
+    </div>:
+    
+    <div id="login-container">
+        <h2>Login</h2>
+        <input value={email} onChange={e=>setEmail(e.target.value)}
+        type="email" id="login-email" placeholder="Email"/>
+        <input value={pass} onChange={e=>setPass(e.target.value)}
+        type="password" onClick={handelLogin}  id="login-password" placeholder="Password"/>
+        <button id="login-button">Login</button>
+    </div>
+    
+    }</>
     :
     <Page profiles={profiles}/>
     }

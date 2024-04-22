@@ -384,3 +384,7 @@ height: auto;
   border-radius: 12px;
   margin: 0;
 }
+
+.disablerty{
+ pointer-events: none;
+}
