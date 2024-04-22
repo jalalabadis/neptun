@@ -11,8 +11,10 @@ function Profile() {
   const navigate = useNavigate();
   const [searchparms]= useSearchParams('');
   const profiles =  searchparms.get('profile');
-  
- const [ringCode, setRingCode] = useState(( searchparms.get('ringcode'))? searchparms.get('ringcode'):'');
+  const login =  searchparms.get('login');
+  const register =  searchparms.get('register');
+
+  const [ringCode, setRingCode] = useState(( searchparms.get('ringcode'))? searchparms.get('ringcode'):'');
  const [email, setEmail]=useState('');
  const [pass, setPass]=useState('');
  const [regemail, setRegEmail]=useState('');
@@ -105,6 +107,8 @@ const handelSignup = async () => {
     <div style={{display: 'flex', gap: "25px"}}>
 
    {!profiles ?<>
+
+   {login&&
        <div id="login-container">
         <h2>Login</h2>
         <input value={email} onChange={e=>setEmail(e.target.value)}
@@ -112,9 +116,9 @@ const handelSignup = async () => {
         <input value={pass} onChange={e=>setPass(e.target.value)}
         type="password" onClick={handelLogin}  id="login-password" placeholder="Password"/>
         <button id="login-button">Login</button>
-    </div>
+    </div>}
 
-
+{(register || ringCode)&&
     <div id="registration-container">
         <h2>Register</h2>
         <input value={regemail} onChange={e=>setRegEmail(e.target.value)}
@@ -125,7 +129,7 @@ const handelSignup = async () => {
          id="register-ring-code" placeholder="Ring Code"/>
         <button onClick={handelSignup} id="register-button">Register</button>
         <div id="registration-message"></div>
-    </div></>
+    </div>}</>
     :
     <Page profiles={profiles}/>
     }

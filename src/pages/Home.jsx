@@ -12,8 +12,8 @@ export default function Home() {
             <h1 style={{color:"white"}}>Hello, welcome!</h1>
         </div>
         <form id="login-form">
-            <button type="button" className="button login-btn" onClick={()=>navigate('/profile#login')}>Log in</button>
-            <button type="button" className="button signup-btn" onClick={()=>navigate('/profile#register')}>Sign up</button>
+            <button type="button" className="button login-btn" onClick={()=>navigate('/profile?login=true')}>Log in</button>
+            <button type="button" className="button signup-btn" onClick={()=>navigate('/profile?register=true')}>Sign up</button>
         </form>
     </div>
 </div>
