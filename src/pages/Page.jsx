@@ -20,6 +20,10 @@ function Page({profiles}) {
   const [url, setUrl]=useState('');
   const [usernameEdit, setUserNameEdit]=useState(false);
   const [addbuttonEdit, setAddbutonEdit]=useState(false);
+  const [editPopup, setEditPopup]=useState(false);
+  const [editlabletext, setEditlabeltext]=useState('');
+  const [editTargetlabletext, setEditTargetlabeltext]=useState('');
+  const [editurltext, setEditUrltext]=useState('');
   const [editParmission, setEditParmission]=useState(false);
 
   useEffect(()=>{
@@ -116,6 +120,7 @@ function Page({profiles}) {
     const handeldeleteitem= async(itemlabel)=>{
       console.log(lable)
      const deletebuttons = userData.buttons.filter(item => item.label !== itemlabel);
+     console.log(deletebuttons)
      const usercRefs = doc(db, "profiles", userId);
      await   updateDoc(usercRefs, {buttons: deletebuttons});
 
@@ -127,11 +132,37 @@ function Page({profiles}) {
      console.log(userData)
      toast("update buttons");
     };
+
+
+
+    const handeledititem= async()=>{
+      if(editlabletext&&editurltext){
+    
+       userData.buttons[editTargetlabletext].label = editlabletext;
+       userData.buttons[editTargetlabletext].link = editurltext;
+
+     const usercRefs = doc(db, "profiles", userId);
+     await   updateDoc(usercRefs, {buttons: userData.buttons});
+     setEditPopup(false);
+     toast("update buttons");
+        }
+        else{
+          toast("Fill all info");
+        }
+    };
+
+
+
+
 const handelLogout= async()=>{
  await signOut(auth);
 navigate('/');
 
 };
+
+
+
+
   return (
     <> 
        {editParmission&&  <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
@@ -209,14 +240,21 @@ return(
   <tr key={index}> 
 <td>{item.label}</td>
 <td>{item.link}</td>
-<td onClick={e=>handeldeleteitem(item.label)}>Delete</td>
+<td className='attionformetofrt'>
+  <button onClick={e=>{
+  setEditUrltext(item.link)
+    setEditlabeltext(item.label)
+    setEditTargetlabeltext(index)
+    setEditPopup(true)}} style={{background:'green'}}>Edit</button>
+  <button onClick={e=>handeldeleteitem(item.label)} style={{background: 'red'}}>Delete</button>
+ 
+  
+  </td>
 
 </tr>
 
         
-)
-
-      })}
+) })}
 
       </tbody>
    </table>
@@ -239,6 +277,23 @@ return(
  </div>}
     </div>:
     <div className="linear-background"></div>}
+
+
+
+{editPopup&&
+<div id="mySizeChartModal" className="ebcf_modal">
+
+<div className="ebcf_modal-content">
+  <span className="ebcf_close" onClick={e=>setEditPopup(false)}>&times;</span>
+  <div style={{marginTop: '25px'}}>
+  <input value={editlabletext} onChange={e=> setEditlabeltext(e.target.value)} type="text" placeholder='Type Lable' />
+  <input value={editurltext} onChange={e=> setEditUrltext(e.target.value)} type="text" placeholder='Type Url' />
+  <button onClick={handeledititem}>Update</button>
+  </div>
+</div>
+
+</div>}
+
     </>
   )
 }

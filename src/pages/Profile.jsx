@@ -106,6 +106,7 @@ const handelSignup = async () => {
       toast(!regemail ? "Email is required!" : !regpass ? "Password is required!" : "Ring code is required!");
     }
   } catch (error) {
+    setIsloding(false);
     // Check for specific error codes and handle them accordingly
     if (error.code === "auth/email-already-in-use") {
       toast("Email is already in use!");
