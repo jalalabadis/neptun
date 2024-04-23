@@ -338,6 +338,7 @@ height: auto;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 100%;
+  min-width: 320px;
   max-width: 500px;
 }
 
@@ -350,6 +351,7 @@ height: auto;
 .table {
   width: 100%;
   border-collapse: collapse;
+  
 }
 
 .table th, .table td {
@@ -484,4 +486,44 @@ justify-content: center;
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+
+#logout-container{
+  position: absolute;
+  top: 10px;
+  right: 10px
+}
+/* Mobile Frendly */
+
+@media only screen and (max-width: 600px) {
+  #button-container {
+    width:100%;
+    min-width: 280px;
+  max-width: 360px;
+    overflow-x: auto;
+  }
+
+
+#profile-container {
+  width:100%;
+  min-width: 280px;
+  max-width: 360px;
+  overflow-x: auto;
+  margin-top: 18px;
+}
+
+.table td{
+  font-size: 12px;
+}
+
+.attionformetofrt button{
+ font-size: 12px;
+}
+.buttontrs {
+font-size: 16px;
+}
+#logout-container{
+  top: 0;
+}
 }

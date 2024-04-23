@@ -165,11 +165,11 @@ navigate('/');
 
   return (
     <> 
-       {editParmission&&  <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
+       {editParmission&&  <div id="logout-container">
         <button id="logout-button" onClick={handelLogout} className="buttontrs">Logout</button>
     </div>}
     {!userId&& 
-    <div id="logout-container" style={{position: "absolute", top: "10px", right: "10px"}}>
+    <div id="logout-container">
         <button id="logout-button" onClick={e=>navigate('/profile?login=true')} className="buttontrs">Login</button>
     </div>}
 
